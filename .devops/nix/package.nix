@@ -155,11 +155,15 @@ effectiveStdenv.mkDerivation (
       ++ optionals useCuda cudaBuildInputs
       ++ optionals useMpi [ mpi ]
       ++ optionals useOpenCL [ clblast ]
-      ++ optionals useRocm rocmBuildInputs;
+      ++ optionals useRocm rocmBuildInputs
+      ++ [ openblas ];
 
     cmakeFlags =
       [
         (cmakeBool "LLAMA_NATIVE" true)
+        (cmakeBool "LLAMA_AVX" true)
+        (cmakeBool "LLAMA_AVX2" true)
+        (cmakeBool "LLAMA_FMA" true)
         (cmakeBool "LLAMA_BUILD_SERVER" true)
         (cmakeBool "BUILD_SHARED_LIBS" true)
         (cmakeBool "CMAKE_SKIP_BUILD_RPATH" true)
